@@ -18,6 +18,16 @@ await app.register(helmet);
 
 await app.register(sensible);
 
+// Root route
+app.get("/", async () => {
+  return {
+    name: "API Monitoring System",
+    version: "1.0.0",
+    status: "running",
+  };
+});
+
+// Health check
 app.get("/health", async () => {
   return {
     status: "ok",
