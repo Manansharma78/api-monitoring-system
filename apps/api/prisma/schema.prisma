@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum HttpMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+  HEAD
+  OPTIONS
+}
+
+enum MonitorStatus {
+  UP
+  DOWN
+  DEGRADED
+  UNKNOWN
+}
+
+enum IncidentStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+enum AlertType {
+  RESPONSE_TIME
+  STATUS_CODE
+  FAILURE_RATE
+  DOWNTIME
+  SSL_EXPIRY
+}
+
+enum NotificationType {
+  EMAIL
+  SLACK
+  DISCORD
+  WEBHOOK
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+// ============================================================
+// USER
+// ============================================================
+
+model User {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  name         String?
+  passwordHash String
+
+  role UserRole @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  monitors             ApiMonitor[]
+  incidents            Incident[]
+  alertRules           AlertRule[]
+  notificationChannels NotificationChannel[]
+
+  @@index([email])
+}
+
+// ============================================================
+// API MONITOR
+// ============================================================
+
+model ApiMonitor {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+
+  url    String
+  method HttpMethod @default(GET)
+
+  intervalSeconds Int @default(60)
+  timeoutMs       Int @default(10000)
+
+  enabled Boolean @default(true)
+
+  expectedStatusCode Int @default(200)
+
+  headers Json?
+  body    String?
+
+  status           MonitorStatus @default(UNKNOWN)
+  lastCheckedAt    DateTime?
+  lastSuccessfulAt DateTime?
+  lastFailedAt     DateTime?
+
+  totalChecks      Int @default(0)
+  successfulChecks Int @default(0)
+  failedChecks     Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  incidents  Incident[]
+  alertRules AlertRule[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([enabled])
+  @@index([lastCheckedAt])
+}
+
+// ============================================================
+// INCIDENT
+// ============================================================
+
+model Incident {
+  id String @id @default(cuid())
+
+  monitorId String
+  monitor   ApiMonitor @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String?
+
+  status IncidentStatus @default(OPEN)
+
+  errorMessage String?
+  statusCode   Int?
+  responseTime Int?
+
+  startedAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([monitorId])
+  @@index([userId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// ============================================================
+// ALERT RULE
+// ============================================================
+
+model AlertRule {
+  id String @id @default(cuid())
+
+  monitorId String
+  monitor   ApiMonitor @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type AlertType
+
+  threshold Float?
+
+  enabled Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([monitorId])
+  @@index([userId])
+  @@index([type])
+  @@index([enabled])
+}
+
+// ============================================================
+// NOTIFICATION CHANNEL
+// ============================================================
+
+model NotificationChannel {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name String
+
+  type NotificationType
+
+  config Json
+
+  enabled Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notifications Notification[]
+
+  @@index([userId])
+  @@index([type])
+  @@index([enabled])
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+
+model Notification {
+  id String @id @default(cuid())
+
+  channelId String
+  channel   NotificationChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  type NotificationType
+
+  subject String
+  message String
+
+  status NotificationStatus @default(PENDING)
+
+  sentAt DateTime?
+
+  errorMessage String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([status])
+  @@index([createdAt])
+}
