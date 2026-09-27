@@ -1,0 +1,19 @@
+{
+  "name": "api-monitoring-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-time API monitoring and observability platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
