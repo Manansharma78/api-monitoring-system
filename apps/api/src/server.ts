@@ -5,12 +5,15 @@ import sensible from "@fastify/sensible";
 import dotenv from "dotenv";
 import { authRoutes } from "./routes/auth.routes.js";
 import jwt from "@fastify/jwt";
-
+import { monitorRoutes } from "./routes/monitor.routes.js";
+import { incidentRoutes } from "./routes/incident.routes.js";
 import {
   prisma,
   connectDatabase,
   disconnectDatabase,
 } from "./config/database.js";
+import { dashboardRoutes } from "./routes/dashboard.routes.js";
+import { connectMongoDB, disconnectMongoDB } from "./config/mongodb.js";
 
 dotenv.config();
 
@@ -34,8 +37,18 @@ await app.register(authRoutes, {
   prefix: "/api/auth",
 });
 
+await app.register(monitorRoutes, {
+  prefix: "/api/monitors",
+});
+await app.register(incidentRoutes, {
+  prefix: "/api/incidents",
+});
 await app.register(jwt, {
   secret: process.env.JWT_SECRET!,
+});
+
+await app.register(dashboardRoutes, {
+  prefix: "/api/dashboard",
 });
 
 // ============================================================
@@ -86,6 +99,7 @@ const PORT = Number(process.env.PORT) || 4000;
 
 try {
   await connectDatabase();
+  await connectMongoDB();
 
   await app.listen({
     port: PORT,
@@ -109,6 +123,7 @@ const shutdown = async () => {
   console.log("Shutting down API server...");
 
   await app.close();
+  await disconnectMongoDB();
   await disconnectDatabase();
 
   process.exit(0);

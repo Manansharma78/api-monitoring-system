@@ -105,6 +105,7 @@ export const ApiMonitorScalarFieldEnum = {
   lastCheckedAt: 'lastCheckedAt',
   lastSuccessfulAt: 'lastSuccessfulAt',
   lastFailedAt: 'lastFailedAt',
+  lastScheduledAt: 'lastScheduledAt',
   totalChecks: 'totalChecks',
   successfulChecks: 'successfulChecks',
   failedChecks: 'failedChecks',

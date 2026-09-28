@@ -3,6 +3,12 @@ import { z } from "zod";
 
 import { registerUser, loginUser } from "../services/auth.service.js";
 
+import { prisma } from "../config/database.js";
+
+// ============================================================
+// VALIDATION SCHEMAS
+// ============================================================
+
 const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
@@ -13,6 +19,10 @@ const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
+
+// ============================================================
+// REGISTER
+// ============================================================
 
 export async function registerController(
   request: FastifyRequest,
@@ -56,6 +66,10 @@ export async function registerController(
   }
 }
 
+// ============================================================
+// LOGIN
+// ============================================================
+
 export async function loginController(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -96,6 +110,52 @@ export async function loginController(
       });
     }
 
+    request.log.error(error);
+
+    return reply.code(500).send({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+}
+
+// ============================================================
+// GET CURRENT USER
+// ============================================================
+
+export async function meController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  try {
+    const userId = request.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      return reply.code(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return reply.send({
+      success: true,
+      user,
+    });
+  } catch (error) {
     request.log.error(error);
 
     return reply.code(500).send({

@@ -1,0 +1,32 @@
+{
+  "name": "@api-monitoring/scheduler",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scheduler for API monitoring jobs",
+  "type": "module",
+  "main": "dist/scheduler.js",
+  "scripts": {
+    "dev": "tsx watch src/scheduler.ts",
+    "build": "tsc",
+    "start": "node dist/scheduler.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@api-monitoring/database": "1.0.0",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "amqplib": "^0.10.9",
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.7",
+    "@types/node": "^24.5.2",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

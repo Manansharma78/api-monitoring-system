@@ -60,6 +60,7 @@ export type ApiMonitorMinAggregateOutputType = {
   lastCheckedAt: Date | null
   lastSuccessfulAt: Date | null
   lastFailedAt: Date | null
+  lastScheduledAt: Date | null
   totalChecks: number | null
   successfulChecks: number | null
   failedChecks: number | null
@@ -83,6 +84,7 @@ export type ApiMonitorMaxAggregateOutputType = {
   lastCheckedAt: Date | null
   lastSuccessfulAt: Date | null
   lastFailedAt: Date | null
+  lastScheduledAt: Date | null
   totalChecks: number | null
   successfulChecks: number | null
   failedChecks: number | null
@@ -107,6 +109,7 @@ export type ApiMonitorCountAggregateOutputType = {
   lastCheckedAt: number
   lastSuccessfulAt: number
   lastFailedAt: number
+  lastScheduledAt: number
   totalChecks: number
   successfulChecks: number
   failedChecks: number
@@ -150,6 +153,7 @@ export type ApiMonitorMinAggregateInputType = {
   lastCheckedAt?: true
   lastSuccessfulAt?: true
   lastFailedAt?: true
+  lastScheduledAt?: true
   totalChecks?: true
   successfulChecks?: true
   failedChecks?: true
@@ -173,6 +177,7 @@ export type ApiMonitorMaxAggregateInputType = {
   lastCheckedAt?: true
   lastSuccessfulAt?: true
   lastFailedAt?: true
+  lastScheduledAt?: true
   totalChecks?: true
   successfulChecks?: true
   failedChecks?: true
@@ -197,6 +202,7 @@ export type ApiMonitorCountAggregateInputType = {
   lastCheckedAt?: true
   lastSuccessfulAt?: true
   lastFailedAt?: true
+  lastScheduledAt?: true
   totalChecks?: true
   successfulChecks?: true
   failedChecks?: true
@@ -308,6 +314,7 @@ export type ApiMonitorGroupByOutputType = {
   lastCheckedAt: Date | null
   lastSuccessfulAt: Date | null
   lastFailedAt: Date | null
+  lastScheduledAt: Date | null
   totalChecks: number
   successfulChecks: number
   failedChecks: number
@@ -355,6 +362,7 @@ export type ApiMonitorWhereInput = {
   lastCheckedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastSuccessfulAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastFailedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
+  lastScheduledAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   totalChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   successfulChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   failedChecks?: Prisma.IntFilter<"ApiMonitor"> | number
@@ -382,6 +390,7 @@ export type ApiMonitorOrderByWithRelationInput = {
   lastCheckedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSuccessfulAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastFailedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalChecks?: Prisma.SortOrder
   successfulChecks?: Prisma.SortOrder
   failedChecks?: Prisma.SortOrder
@@ -412,6 +421,7 @@ export type ApiMonitorWhereUniqueInput = Prisma.AtLeast<{
   lastCheckedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastSuccessfulAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastFailedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
+  lastScheduledAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   totalChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   successfulChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   failedChecks?: Prisma.IntFilter<"ApiMonitor"> | number
@@ -439,6 +449,7 @@ export type ApiMonitorOrderByWithAggregationInput = {
   lastCheckedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSuccessfulAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastFailedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   totalChecks?: Prisma.SortOrder
   successfulChecks?: Prisma.SortOrder
   failedChecks?: Prisma.SortOrder
@@ -471,6 +482,7 @@ export type ApiMonitorScalarWhereWithAggregatesInput = {
   lastCheckedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ApiMonitor"> | Date | string | null
   lastSuccessfulAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ApiMonitor"> | Date | string | null
   lastFailedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ApiMonitor"> | Date | string | null
+  lastScheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ApiMonitor"> | Date | string | null
   totalChecks?: Prisma.IntWithAggregatesFilter<"ApiMonitor"> | number
   successfulChecks?: Prisma.IntWithAggregatesFilter<"ApiMonitor"> | number
   failedChecks?: Prisma.IntWithAggregatesFilter<"ApiMonitor"> | number
@@ -494,6 +506,7 @@ export type ApiMonitorCreateInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -521,6 +534,7 @@ export type ApiMonitorUncheckedCreateInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -546,6 +560,7 @@ export type ApiMonitorUpdateInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -573,6 +588,7 @@ export type ApiMonitorUncheckedUpdateInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -599,6 +615,7 @@ export type ApiMonitorCreateManyInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -622,6 +639,7 @@ export type ApiMonitorUpdateManyMutationInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -646,6 +664,7 @@ export type ApiMonitorUncheckedUpdateManyInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -680,6 +699,7 @@ export type ApiMonitorCountOrderByAggregateInput = {
   lastCheckedAt?: Prisma.SortOrder
   lastSuccessfulAt?: Prisma.SortOrder
   lastFailedAt?: Prisma.SortOrder
+  lastScheduledAt?: Prisma.SortOrder
   totalChecks?: Prisma.SortOrder
   successfulChecks?: Prisma.SortOrder
   failedChecks?: Prisma.SortOrder
@@ -712,6 +732,7 @@ export type ApiMonitorMaxOrderByAggregateInput = {
   lastCheckedAt?: Prisma.SortOrder
   lastSuccessfulAt?: Prisma.SortOrder
   lastFailedAt?: Prisma.SortOrder
+  lastScheduledAt?: Prisma.SortOrder
   totalChecks?: Prisma.SortOrder
   successfulChecks?: Prisma.SortOrder
   failedChecks?: Prisma.SortOrder
@@ -735,6 +756,7 @@ export type ApiMonitorMinOrderByAggregateInput = {
   lastCheckedAt?: Prisma.SortOrder
   lastSuccessfulAt?: Prisma.SortOrder
   lastFailedAt?: Prisma.SortOrder
+  lastScheduledAt?: Prisma.SortOrder
   totalChecks?: Prisma.SortOrder
   successfulChecks?: Prisma.SortOrder
   failedChecks?: Prisma.SortOrder
@@ -866,6 +888,7 @@ export type ApiMonitorCreateWithoutUserInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -891,6 +914,7 @@ export type ApiMonitorUncheckedCreateWithoutUserInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -946,6 +970,7 @@ export type ApiMonitorScalarWhereInput = {
   lastCheckedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastSuccessfulAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   lastFailedAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
+  lastScheduledAt?: Prisma.DateTimeNullableFilter<"ApiMonitor"> | Date | string | null
   totalChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   successfulChecks?: Prisma.IntFilter<"ApiMonitor"> | number
   failedChecks?: Prisma.IntFilter<"ApiMonitor"> | number
@@ -969,6 +994,7 @@ export type ApiMonitorCreateWithoutIncidentsInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -995,6 +1021,7 @@ export type ApiMonitorUncheckedCreateWithoutIncidentsInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -1035,6 +1062,7 @@ export type ApiMonitorUpdateWithoutIncidentsInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1061,6 +1089,7 @@ export type ApiMonitorUncheckedUpdateWithoutIncidentsInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1085,6 +1114,7 @@ export type ApiMonitorCreateWithoutAlertRulesInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -1111,6 +1141,7 @@ export type ApiMonitorUncheckedCreateWithoutAlertRulesInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -1151,6 +1182,7 @@ export type ApiMonitorUpdateWithoutAlertRulesInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1177,6 +1209,7 @@ export type ApiMonitorUncheckedUpdateWithoutAlertRulesInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1201,6 +1234,7 @@ export type ApiMonitorCreateManyUserInput = {
   lastCheckedAt?: Date | string | null
   lastSuccessfulAt?: Date | string | null
   lastFailedAt?: Date | string | null
+  lastScheduledAt?: Date | string | null
   totalChecks?: number
   successfulChecks?: number
   failedChecks?: number
@@ -1224,6 +1258,7 @@ export type ApiMonitorUpdateWithoutUserInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1249,6 +1284,7 @@ export type ApiMonitorUncheckedUpdateWithoutUserInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1274,6 +1310,7 @@ export type ApiMonitorUncheckedUpdateManyWithoutUserInput = {
   lastCheckedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastSuccessfulAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastFailedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   totalChecks?: Prisma.IntFieldUpdateOperationsInput | number
   successfulChecks?: Prisma.IntFieldUpdateOperationsInput | number
   failedChecks?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1338,6 +1375,7 @@ export type ApiMonitorSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   lastCheckedAt?: boolean
   lastSuccessfulAt?: boolean
   lastFailedAt?: boolean
+  lastScheduledAt?: boolean
   totalChecks?: boolean
   successfulChecks?: boolean
   failedChecks?: boolean
@@ -1366,6 +1404,7 @@ export type ApiMonitorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   lastCheckedAt?: boolean
   lastSuccessfulAt?: boolean
   lastFailedAt?: boolean
+  lastScheduledAt?: boolean
   totalChecks?: boolean
   successfulChecks?: boolean
   failedChecks?: boolean
@@ -1391,6 +1430,7 @@ export type ApiMonitorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   lastCheckedAt?: boolean
   lastSuccessfulAt?: boolean
   lastFailedAt?: boolean
+  lastScheduledAt?: boolean
   totalChecks?: boolean
   successfulChecks?: boolean
   failedChecks?: boolean
@@ -1416,6 +1456,7 @@ export type ApiMonitorSelectScalar = {
   lastCheckedAt?: boolean
   lastSuccessfulAt?: boolean
   lastFailedAt?: boolean
+  lastScheduledAt?: boolean
   totalChecks?: boolean
   successfulChecks?: boolean
   failedChecks?: boolean
@@ -1423,7 +1464,7 @@ export type ApiMonitorSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ApiMonitorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "url" | "method" | "intervalSeconds" | "timeoutMs" | "enabled" | "expectedStatusCode" | "headers" | "body" | "status" | "lastCheckedAt" | "lastSuccessfulAt" | "lastFailedAt" | "totalChecks" | "successfulChecks" | "failedChecks" | "createdAt" | "updatedAt", ExtArgs["result"]["apiMonitor"]>
+export type ApiMonitorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "description" | "url" | "method" | "intervalSeconds" | "timeoutMs" | "enabled" | "expectedStatusCode" | "headers" | "body" | "status" | "lastCheckedAt" | "lastSuccessfulAt" | "lastFailedAt" | "lastScheduledAt" | "totalChecks" | "successfulChecks" | "failedChecks" | "createdAt" | "updatedAt", ExtArgs["result"]["apiMonitor"]>
 export type ApiMonitorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   incidents?: boolean | Prisma.ApiMonitor$incidentsArgs<ExtArgs>
@@ -1461,6 +1502,7 @@ export type $ApiMonitorPayload<ExtArgs extends runtime.Types.Extensions.Internal
     lastCheckedAt: Date | null
     lastSuccessfulAt: Date | null
     lastFailedAt: Date | null
+    lastScheduledAt: Date | null
     totalChecks: number
     successfulChecks: number
     failedChecks: number
@@ -1908,6 +1950,7 @@ export interface ApiMonitorFieldRefs {
   readonly lastCheckedAt: Prisma.FieldRef<"ApiMonitor", 'DateTime'>
   readonly lastSuccessfulAt: Prisma.FieldRef<"ApiMonitor", 'DateTime'>
   readonly lastFailedAt: Prisma.FieldRef<"ApiMonitor", 'DateTime'>
+  readonly lastScheduledAt: Prisma.FieldRef<"ApiMonitor", 'DateTime'>
   readonly totalChecks: Prisma.FieldRef<"ApiMonitor", 'Int'>
   readonly successfulChecks: Prisma.FieldRef<"ApiMonitor", 'Int'>
   readonly failedChecks: Prisma.FieldRef<"ApiMonitor", 'Int'>

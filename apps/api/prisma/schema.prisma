@@ -110,9 +110,10 @@ model ApiMonitor {
   body    String?
 
   status           MonitorStatus @default(UNKNOWN)
-  lastCheckedAt    DateTime?
-  lastSuccessfulAt DateTime?
-  lastFailedAt     DateTime?
+  lastCheckedAt     DateTime?
+  lastSuccessfulAt  DateTime?
+  lastFailedAt      DateTime?
+  lastScheduledAt   DateTime?
 
   totalChecks      Int @default(0)
   successfulChecks Int @default(0)
