@@ -29,3 +29,24 @@ A real-time API monitoring and observability platform built with Node.js, TypeSc
 - Prometheus
 - Grafana
 - Docker
+
+
+
+
+## Current Status
+
+Version 1 of the API Monitoring & Observability Platform is functional and actively under development.
+
+Current capabilities include:
+
+- API health and uptime monitoring
+- Response-time tracking
+- Failure detection and incident management
+- Monitoring history
+- Next.js monitoring dashboard
+- PostgreSQL and Prisma
+- MongoDB monitoring history
+- RabbitMQ-based monitoring jobs
+- Docker-based local infrastructure
+
+The project will continue to evolve through regular versions with additional monitoring, alerting, observability, scalability, and deployment improvements.
