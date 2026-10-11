@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "test": "vitest run",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma skills sync || exit 0"
@@ -31,7 +32,8 @@
     "@types/node": "^24.5.2",
     "prisma": "^7.10.0",
     "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^5.0.3"
   },
   "engines": {
     "node": ">=20"
