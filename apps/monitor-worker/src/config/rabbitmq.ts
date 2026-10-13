@@ -1,7 +1,16 @@
 import amqp, { type Channel, type ChannelModel } from "amqplib";
 
-const RABBITMQ_URL =
-  process.env.RABBITMQ_URL ?? "amqp://monitor:monitor_password@localhost:5672";
+function getRabbitMQUrl(): string {
+  const url = process.env.RABBITMQ_URL;
+
+  if (!url) {
+    throw new Error("RABBITMQ_URL environment variable is required");
+  }
+
+  return url;
+}
+
+const RABBITMQ_URL: string = getRabbitMQUrl();
 
 const QUEUE_NAME = "monitor.check";
 

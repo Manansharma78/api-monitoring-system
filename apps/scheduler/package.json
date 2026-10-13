@@ -6,9 +6,9 @@
   "type": "module",
   "main": "dist/scheduler.js",
   "scripts": {
-    "dev": "tsx watch src/scheduler.ts",
+    "dev": "node --env-file=../../apps/api/.env ../../node_modules/tsx/dist/cli.mjs watch src/scheduler.ts",
     "build": "tsc",
-    "start": "node dist/scheduler.js",
+    "start": "node --env-file=../../apps/api/.env dist/scheduler.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

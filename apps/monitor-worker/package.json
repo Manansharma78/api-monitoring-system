@@ -6,11 +6,11 @@
   "type": "module",
   "main": "dist/worker.js",
   "scripts": {
-    "dev": "tsx watch src/worker.ts",
+    "dev": "node --env-file=../../apps/api/.env ../../node_modules/tsx/dist/cli.mjs watch src/worker.ts",
     "build": "tsc",
-    "start": "node dist/worker.js",
+    "start": "node --env-file=../../apps/api/.env dist/worker.js",
     "typecheck": "tsc --noEmit",
-    "publish:test": "tsx src/publisher.ts"
+    "publish:test": "node --env-file=../../apps/api/.env ../../node_modules/tsx/dist/cli.mjs src/publisher.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

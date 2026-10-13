@@ -21,11 +21,19 @@ if (!DATABASE_URL) {
   throw new Error("DATABASE_URL is not defined");
 }
 
-const RABBITMQ_URL =
-  process.env.RABBITMQ_URL || "amqp://monitor:monitor_password@localhost:5672";
+function getRabbitMQUrl(): string {
+  const url = process.env.RABBITMQ_URL;
+
+  if (!url) {
+    throw new Error("RABBITMQ_URL environment variable is required");
+  }
+
+  return url;
+}
+
+const RABBITMQ_URL: string = getRabbitMQUrl();
 
 const QUEUE_NAME = "monitor.check";
-
 const SCHEDULER_INTERVAL = 5000;
 
 const pool = new Pool({
@@ -36,16 +44,12 @@ interface Monitor {
   id: string;
   name: string;
   url: string;
-
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
-
   intervalSeconds: number;
   timeoutMs: number;
   expectedStatusCode: number;
-
   headers: Record<string, string> | null;
   body: string | null;
-
   lastCheckedAt: Date | null;
   lastScheduledAt: Date | null;
 }
@@ -53,37 +57,38 @@ interface Monitor {
 interface MonitorJob {
   monitorId: string;
   url: string;
-
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
-
   timeoutMs: number;
   expectedStatusCode: number;
-
   headers?: Record<string, string>;
   body?: string;
 }
 
-async function connectDatabase() {
+async function connectDatabase(): Promise<void> {
   await pool.query("SELECT 1");
-
   console.log("PostgreSQL connected successfully");
 }
 
 async function connectRabbitMQ() {
   const connection = await amqp.connect(RABBITMQ_URL);
 
-  const channel = await connection.createChannel();
+  try {
+    const channel = await connection.createChannel();
 
-  await channel.assertQueue(QUEUE_NAME, {
-    durable: true,
-  });
+    await channel.assertQueue(QUEUE_NAME, {
+      durable: true,
+    });
 
-  console.log("RabbitMQ connected successfully");
+    console.log("RabbitMQ connected successfully");
 
-  return {
-    connection,
-    channel,
-  };
+    return {
+      connection,
+      channel,
+    };
+  } catch (error) {
+    await connection.close();
+    throw error;
+  }
 }
 
 async function getMonitors(): Promise<Monitor[]> {
@@ -109,31 +114,19 @@ async function getMonitors(): Promise<Monitor[]> {
 }
 
 function isDue(monitor: Monitor): boolean {
-  const now = Date.now();
-
-  /*
-   * Never scheduled before.
-   */
   if (monitor.lastScheduledAt === null) {
     return true;
   }
 
   const lastScheduled = new Date(monitor.lastScheduledAt).getTime();
-
   const interval = monitor.intervalSeconds * 1000;
 
-  return now - lastScheduled >= interval;
+  return Date.now() - lastScheduled >= interval;
 }
 
 async function claimMonitor(monitor: Monitor): Promise<boolean> {
   const now = new Date();
 
-  /*
-   * Atomically claim the monitor.
-
-   * This prevents multiple scheduler iterations
-   * from publishing the same monitor repeatedly.
-   */
   const result = await pool.query(
     `
       UPDATE "ApiMonitor"
@@ -152,7 +145,10 @@ async function claimMonitor(monitor: Monitor): Promise<boolean> {
   return result.rowCount === 1;
 }
 
-async function publishMonitorCheck(channel: amqp.Channel, monitor: Monitor) {
+async function publishMonitorCheck(
+  channel: amqp.Channel,
+  monitor: Monitor,
+): Promise<void> {
   const claimed = await claimMonitor(monitor);
 
   if (!claimed) {
@@ -161,26 +157,12 @@ async function publishMonitorCheck(channel: amqp.Channel, monitor: Monitor) {
 
   const job: MonitorJob = {
     monitorId: monitor.id,
-
     url: monitor.url,
-
     method: monitor.method,
-
     timeoutMs: monitor.timeoutMs,
-
     expectedStatusCode: monitor.expectedStatusCode,
-
-    ...(monitor.headers
-      ? {
-          headers: monitor.headers,
-        }
-      : {}),
-
-    ...(monitor.body
-      ? {
-          body: monitor.body,
-        }
-      : {}),
+    ...(monitor.headers ? { headers: monitor.headers } : {}),
+    ...(monitor.body ? { body: monitor.body } : {}),
   };
 
   channel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(job)), {
@@ -190,15 +172,16 @@ async function publishMonitorCheck(channel: amqp.Channel, monitor: Monitor) {
   console.log(`[Scheduler] Published check: ${monitor.name}`);
 }
 
-async function runScheduler() {
+async function runScheduler(): Promise<void> {
   await connectDatabase();
 
   const { connection, channel } = await connectRabbitMQ();
 
   let running = false;
+  let shuttingDown = false;
 
-  async function checkDueMonitors() {
-    if (running) {
+  async function checkDueMonitors(): Promise<void> {
+    if (running || shuttingDown) {
       return;
     }
 
@@ -206,7 +189,6 @@ async function runScheduler() {
 
     try {
       const monitors = await getMonitors();
-
       let published = 0;
 
       for (const monitor of monitors) {
@@ -215,7 +197,6 @@ async function runScheduler() {
         }
 
         await publishMonitorCheck(channel, monitor);
-
         published++;
       }
 
@@ -237,31 +218,52 @@ async function runScheduler() {
     void checkDueMonitors();
   }, SCHEDULER_INTERVAL);
 
-  const shutdown = async () => {
-    console.log("\n[Scheduler] Shutting down...");
+  let shutdownPromise: Promise<void> | null = null;
 
+  const shutdown = (): Promise<void> => {
+    if (shutdownPromise) {
+      return shutdownPromise;
+    }
+
+    shuttingDown = true;
+    console.log("\n[Scheduler] Shutting down...");
     clearInterval(interval);
 
-    await channel.close();
-    await connection.close();
-    await pool.end();
+    shutdownPromise = (async () => {
+      try {
+        await channel.close();
+        await connection.close();
+      } finally {
+        await pool.end();
+      }
+    })();
 
-    process.exit(0);
+    return shutdownPromise;
   };
 
   process.on("SIGINT", () => {
-    void shutdown();
+    void shutdown().catch((error) => {
+      console.error("[Scheduler] Shutdown error:", error);
+      process.exitCode = 1;
+    });
   });
 
   process.on("SIGTERM", () => {
-    void shutdown();
+    void shutdown().catch((error) => {
+      console.error("[Scheduler] Shutdown error:", error);
+      process.exitCode = 1;
+    });
   });
 }
 
 runScheduler().catch(async (error) => {
   console.error("[Scheduler] Fatal error:", error);
 
-  await pool.end();
+  try {
+    await pool.end();
+  } catch (cleanupError) {
+    console.error("[Scheduler] Database cleanup error:", cleanupError);
+  }
 
-  process.exit(1);
+  process.exitCode = 1;
 });
