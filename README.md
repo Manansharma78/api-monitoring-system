@@ -58,6 +58,4 @@ The first version is working locally. I've tested successful API checks, failure
 
 I'm still working on the project and plan to improve its testing, alerting, reliability, and deployment.
 
-## Repository
 
-[GitHub – API Monitoring System](https://github.com/Manansharma78/api-monitoring-system)
