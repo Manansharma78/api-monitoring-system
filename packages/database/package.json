@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
-    "prisma": "^7.10.0",
+    "prisma": "^7.10.1",
     "typescript": "^5.9.2"
   }
 }
